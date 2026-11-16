@@ -67,7 +67,7 @@ class X3UI:
             "alterId": 0,
             "email": remark,
             "limitIp": 0,
-            "limitHwid": 1,
+            "limitHwid": 5,
             "totalGB": 0,
             "expiryTime": expiry_ms,
             "enable": enable,
