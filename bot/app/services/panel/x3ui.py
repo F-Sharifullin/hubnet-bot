@@ -2,6 +2,7 @@ import logging
 import random
 import uuid
 from typing import Optional
+import time
 
 import aiohttp
 
@@ -148,6 +149,8 @@ class X3UI:
         if not client_uuid:
             logger.warning("set_client_enable called with empty client_uuid")
             return False
+        if not enable and expiry_ms == 0:
+            expiry_ms = int(time.time() * 1000)
         client = self._build_client(client_uuid, remark, sub_id, enable, expiry_ms)
         result = await self._request(
             "POST", f"/panel/api/clients/update/{remark}", json_data=client
@@ -155,8 +158,9 @@ class X3UI:
         return result.get("success", False)
 
     async def disable_client(self, client_uuid: str, remark: str, sub_id: str) -> bool:
-        """Отключает клиента (ключ перестаёт работать)"""
-        return await self.set_client_enable(client_uuid, remark, sub_id, False)
+        """Отключает клиента: enable=False и дата окончания = сейчас (в панели «сегодня»)"""
+        now_ms = int(time.time() * 1000)
+        return await self.set_client_enable(client_uuid, remark, sub_id, False, now_ms)
 
     async def enable_client(self, client_uuid: str, remark: str, sub_id: str) -> bool:
         """Включает клиента обратно"""
