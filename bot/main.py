@@ -4,7 +4,6 @@ from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.redis import RedisStorage
 from aiohttp import web
 
-from bot.app.database import resync_all_expiry  # чтоб старые ключи обновили строки
 from bot.app.database.connection import close_pool, init_pool
 from bot.app.handlers import router
 from bot.app.handlers.user import register_rollypay_webhook, register_tribute_webhook
@@ -39,7 +38,6 @@ async def main():
     site = web.TCPSite(runner, TRIBUTE_WEBHOOK_HOST, TRIBUTE_WEBHOOK_PORT)
     await site.start()
 
-    asyncio.create_task(resync_all_expiry()) # после 1 запуска УДАЛИТЬ
 
     print("✅ Бот запущен")
 

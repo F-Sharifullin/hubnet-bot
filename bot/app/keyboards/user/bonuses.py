@@ -13,5 +13,5 @@ bonus_menu = InlineKeyboardMarkup(inline_keyboard=[
 def invite_user(share_url: str):
     return InlineKeyboardMarkup(
         inline_keyboard=[
-    [InlineKeyboardButton(text="📤 Поделиться", url=share_url)]
+    [InlineKeyboardButton(text="📤 Пригласить", url=share_url)]
 ])
